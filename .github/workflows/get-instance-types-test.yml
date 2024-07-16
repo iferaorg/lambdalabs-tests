@@ -5,13 +5,17 @@ name: Get Instance Types test
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   # Job to get a full list of instance types in JSON format
   test-1:
     name: Full list json
     runs-on: ubuntu-latest  # Run this job on the latest Ubuntu runner
     steps:
-      - name: get-instance-types
+      - name: Call get-instance-types action
+        id: get-instance-types
         uses: iferaorg/lambdalabs-get-instance-types-action@main  # Use custom action to get instance types
         with:
           available_only: false  # Fetch all instance types, including unavailable ones
@@ -27,7 +31,8 @@ jobs:
     name: Available only json
     runs-on: ubuntu-latest
     steps:
-      - name: get-instance-types
+      - name: Call get-instance-types action
+        id: get-instance-types
         uses: iferaorg/lambdalabs-get-instance-types-action@main
         with:
           available_only: true  # Fetch only available instance types
@@ -43,7 +48,8 @@ jobs:
     name: Full list names only
     runs-on: ubuntu-latest
     steps:
-      - name: get-instance-types
+      - name: Call get-instance-types action
+        id: get-instance-types
         uses: iferaorg/lambdalabs-get-instance-types-action@main
         with:
           available_only: false
@@ -59,7 +65,8 @@ jobs:
     name: Available names only
     runs-on: ubuntu-latest
     steps:
-      - name: get-instance-types
+      - name: Call get-instance-types action
+        id: get-instance-types
         uses: iferaorg/lambdalabs-get-instance-types-action@main
         with:
           available_only: true  # Fetch only available instance types
