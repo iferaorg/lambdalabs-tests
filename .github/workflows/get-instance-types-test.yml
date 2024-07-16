@@ -12,19 +12,19 @@ jobs:
   # Job to get a full list of instance types in JSON format
   test-1:
     name: Full list json
-    runs-on: ubuntu-latest  # Run this job on the latest Ubuntu runner
+    runs-on: ubuntu-latest # Run this job on the latest Ubuntu runner
     steps:
       - name: Call get-instance-types action
         id: get-instance-types
-        uses: iferaorg/lambdalabs-get-instance-types-action@main  # Use custom action to get instance types
+        uses: iferaorg/lambdalabs-get-instance-types-action@main # Use custom action to get instance types
         with:
-          available_only: false  # Fetch all instance types, including unavailable ones
-          names_only: false  # Fetch full details in JSON format
+          available_only: false # Fetch all instance types, including unavailable ones
+          names_only: false # Fetch full details in JSON format
         env:
-          LAMBDA_TOKEN: ${{ secrets.LAMBDA_TOKEN }}  # Use secret token for authentication
+          LAMBDA_TOKEN: ${{ secrets.LAMBDA_TOKEN }} # Use secret token for authentication
       - name: Check outputs
         run: |
-            echo "${{ steps.get-instance-types.outputs.instance_types }}"  # Print the output of the custom action
+          echo "${{ steps.get-instance-types.outputs.instance_types }}"  # Print the output of the custom action
 
   # Job to get a list of available instance types in JSON format
   test-2:
@@ -35,13 +35,13 @@ jobs:
         id: get-instance-types
         uses: iferaorg/lambdalabs-get-instance-types-action@main
         with:
-          available_only: true  # Fetch only available instance types
+          available_only: true # Fetch only available instance types
           names_only: false
         env:
           LAMBDA_TOKEN: ${{ secrets.LAMBDA_TOKEN }}
       - name: Check outputs
         run: |
-            echo "${{ steps.get-instance-types.outputs.instance_types }}"
+          echo "${{ steps.get-instance-types.outputs.instance_types }}"
 
   # Job to get a full list of instance type names only
   test-3:
@@ -53,12 +53,12 @@ jobs:
         uses: iferaorg/lambdalabs-get-instance-types-action@main
         with:
           available_only: false
-          names_only: true  # Fetch only the names of the instance types
+          names_only: true # Fetch only the names of the instance types
         env:
           LAMBDA_TOKEN: ${{ secrets.LAMBDA_TOKEN }}
       - name: Check outputs
         run: |
-              echo "${{ steps.get-instance-types.outputs.instance_types }}"
+          echo "${{ steps.get-instance-types.outputs.instance_types }}"
 
   # Job to get a list of available instance type names only
   test-4:
@@ -69,10 +69,10 @@ jobs:
         id: get-instance-types
         uses: iferaorg/lambdalabs-get-instance-types-action@main
         with:
-          available_only: true  # Fetch only available instance types
-          names_only: true  # Fetch only the names of the instance types
+          available_only: true # Fetch only available instance types
+          names_only: true # Fetch only the names of the instance types
         env:
           LAMBDA_TOKEN: ${{ secrets.LAMBDA_TOKEN }}
       - name: Check outputs
         run: |
-            echo "${{ steps.get-instance-types.outputs.instance_types }}"
+          echo "${{ steps.get-instance-types.outputs.instance_types }}"
