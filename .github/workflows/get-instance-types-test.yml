@@ -23,7 +23,7 @@ jobs:
           lambda_token: ${{ secrets.LAMBDA_TOKEN }} # Use secret token for authentication
       - name: Check outputs
         run: |
-          echo "${{ steps.get-instance-types.outputs.instance_types }}" | jq
+          echo '${{ steps.get-instance-types.outputs.instance_types }}' | jq
 
   # Job to get a list of available instance types in JSON format
   test-2:
@@ -39,7 +39,7 @@ jobs:
           lambda_token: ${{ secrets.LAMBDA_TOKEN }}
       - name: Check outputs
         run: |
-          echo "${{ steps.get-instance-types.outputs.instance_types }}" | jq
+          echo '${{ steps.get-instance-types.outputs.instance_types }}' | jq
 
   # Job to get a full list of instance type names only
   test-3:
@@ -55,7 +55,7 @@ jobs:
           lambda_token: ${{ secrets.LAMBDA_TOKEN }}
       - name: Check outputs
         run: |
-          echo "${{ steps.get-instance-types.outputs.instance_types }}"
+          echo '${{ steps.get-instance-types.outputs.instance_types }}'
 
   # Job to get a list of available instance type names only
   test-4:
@@ -71,4 +71,4 @@ jobs:
           lambda_token: ${{ secrets.LAMBDA_TOKEN }}
       - name: Check outputs
         run: |
-          echo "${{ steps.get-instance-types.outputs.instance_types }}"
+          echo '${{ steps.get-instance-types.outputs.instance_types }}'
