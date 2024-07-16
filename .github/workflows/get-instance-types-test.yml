@@ -20,8 +20,7 @@ jobs:
         with:
           available_only: false # Fetch all instance types, including unavailable ones
           names_only: false # Fetch full details in JSON format
-        env:
-          LAMBDA_TOKEN: ${{ secrets.LAMBDA_TOKEN }} # Use secret token for authentication
+          lambda_token: ${{ secrets.LAMBDA_TOKEN }} # Use secret token for authentication
       - name: Check outputs
         run: |
           echo "${{ steps.get-instance-types.outputs.instance_types }}"  # Print the output of the custom action
@@ -37,8 +36,7 @@ jobs:
         with:
           available_only: true # Fetch only available instance types
           names_only: false
-        env:
-          LAMBDA_TOKEN: ${{ secrets.LAMBDA_TOKEN }}
+          lambda_token: ${{ secrets.LAMBDA_TOKEN }}
       - name: Check outputs
         run: |
           echo "${{ steps.get-instance-types.outputs.instance_types }}"
@@ -54,8 +52,7 @@ jobs:
         with:
           available_only: false
           names_only: true # Fetch only the names of the instance types
-        env:
-          LAMBDA_TOKEN: ${{ secrets.LAMBDA_TOKEN }}
+          lambda_token: ${{ secrets.LAMBDA_TOKEN }}
       - name: Check outputs
         run: |
           echo "${{ steps.get-instance-types.outputs.instance_types }}"
@@ -71,8 +68,7 @@ jobs:
         with:
           available_only: true # Fetch only available instance types
           names_only: true # Fetch only the names of the instance types
-        env:
-          LAMBDA_TOKEN: ${{ secrets.LAMBDA_TOKEN }}
+          lambda_token: ${{ secrets.LAMBDA_TOKEN }}
       - name: Check outputs
         run: |
           echo "${{ steps.get-instance-types.outputs.instance_types }}"
