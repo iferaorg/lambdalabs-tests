@@ -72,3 +72,5 @@ jobs:
       - name: Check outputs
         run: |
           echo '${{ steps.get-instance-types.outputs.instance_types }}'
+          echo $GITHUB_OUTPUT
+
