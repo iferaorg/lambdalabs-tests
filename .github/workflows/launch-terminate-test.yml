@@ -42,3 +42,5 @@ jobs:
         with:
           instance_id: ${{ needs.test-1.outputs.instance_id }}
           lambda_token: ${{ secrets.LAMBDA_TOKEN }}
+          wait_for_termination: "true"
+          termination_timeout: "600"
