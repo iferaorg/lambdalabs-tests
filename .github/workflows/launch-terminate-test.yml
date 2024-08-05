@@ -1,0 +1,28 @@
+---
+name: Launch and Terminate LambdaLabs Instance
+
+# Trigger this workflow manually from the GitHub Actions tab
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # Job to get a full list of instance types in JSON format
+  test-1:
+    name: Launch instance
+    runs-on: ubuntu-latest # Run this job on the latest Ubuntu runner
+    steps:
+      - name: Call launch action
+        id: launch-instance
+        uses: iferaorg/lambdalabs-launch-action@main # Use custom action to launch instance
+        with:
+          instance_type_name: "gpu_1x_a10" # Launch a GPU instance
+          region_name: "us-west-1" # Launch in the US West 1 region
+          ssh_key_names: "lambda_ssh_001"
+          lambda_token: ${{ secrets.LAMBDA_TOKEN }} # Use secret token for authentication
+      - name: Check outputs
+        run: |
+          echo '${{ steps.launch-instance.outputs.instance_id }}'
+
