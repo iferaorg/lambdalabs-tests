@@ -1,5 +1,5 @@
 ---
-name: Launch and Terminate LambdaLabs Instance
+name: Launch / Terminate Test
 
 # Trigger this workflow manually from the GitHub Actions tab
 on:
@@ -22,6 +22,8 @@ jobs:
           region_name: "us-west-1" # Launch in the US West 1 region
           ssh_key_names: "lambda_ssh_001"
           lambda_token: ${{ secrets.LAMBDA_TOKEN }} # Use secret token for authentication
+          wait_for_boot: "true" # Wait for the instance to boot
+          boot_timeout: "600" # Set the boot timeout to 10 minutes
       - name: Check outputs
         run: |
           echo '${{ steps.launch-instance.outputs.instance_id }}'
