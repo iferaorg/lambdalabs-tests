@@ -13,6 +13,8 @@ jobs:
   test-1:
     name: Launch instance
     runs-on: ubuntu-latest # Run this job on the latest Ubuntu runner
+    outputs:
+      instance_id: ${{ steps.launch-instance.outputs.instance_id }}
     steps:
       - name: Call launch action
         id: launch-instance
@@ -27,3 +29,16 @@ jobs:
       - name: Check outputs
         run: |
           echo '${{ steps.launch-instance.outputs.instance_id }}'
+
+  test-2:
+    if: ${{ always() }}
+    needs: test-1
+    name: Terminate instance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call terminate action
+        id: terminate-instance
+        uses: iferaorg/lambdalabs-terminate-action@main
+        with:
+          instance_id: ${{ needs.test-1.outputs.instance_id }}
+          lambda_token: ${{ secrets.LAMBDA_TOKEN }}
