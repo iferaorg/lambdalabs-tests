@@ -36,8 +36,8 @@ jobs:
           REGION_NAME=$(echo "$CHEAPEST_INSTANCE" | jq -r '.regions[0].name')
           echo "Cheapest instance: $INSTANCE_TYPE_NAME"
           echo "Region: $REGION_NAME"
-          echo "instance_type_name=$INSTANCE_TYPE_NAME" >> $GITHUB_OUTPUT
-          echo "region_name=$REGION_NAME" >> $GITHUB_OUTPUT
+          echo "instance_type_name=$INSTANCE_TYPE_NAME" >> "$GITHUB_OUTPUT"
+          echo "region_name=$REGION_NAME" >> "$GITHUB_OUTPUT"
 
       - name: Call launch action
         id: launch-instance
