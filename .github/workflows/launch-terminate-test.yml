@@ -9,19 +9,42 @@ permissions:
   contents: read
 
 jobs:
-  # Job to get a full list of instance types in JSON format
   test-1:
     name: Launch instance
     runs-on: ubuntu-latest # Run this job on the latest Ubuntu runner
     outputs:
       instance_id: ${{ steps.launch-instance.outputs.instance_id }}
     steps:
+      - name: Get available instance types
+        id: get-instance-types
+        uses: iferaorg/lambdalabs-get-instance-types-action@main
+        with:
+          available_only: true
+          names_only: false
+          lambda_token: ${{ secrets.LAMBDA_TOKEN }}
+
+      - name: Find cheapest instance
+        id: select-instance
+        run: |
+          INSTANCES='${{ steps.get-instance-types.outputs.instance_types }}'
+          CHEAPEST_INSTANCE=$(echo "$INSTANCES" | jq -r '
+            to_entries
+            | map({name: .key, price: .value.instance_type.price_cents_per_hour, regions: .value.regions_with_capacity_available})
+            | sort_by(.price)
+            | .[0]')
+          INSTANCE_TYPE_NAME=$(echo "$CHEAPEST_INSTANCE" | jq -r '.name')
+          REGION_NAME=$(echo "$CHEAPEST_INSTANCE" | jq -r '.regions[0].name')
+          echo "Cheapest instance: $INSTANCE_TYPE_NAME"
+          echo "Region: $REGION_NAME"
+          echo "instance_type_name=$INSTANCE_TYPE_NAME" >> $GITHUB_OUTPUT
+          echo "region_name=$REGION_NAME" >> $GITHUB_OUTPUT
+
       - name: Call launch action
         id: launch-instance
         uses: iferaorg/lambdalabs-launch-action@main # Use custom action to launch instance
         with:
-          instance_type_name: "gpu_1x_a10" # Launch a GPU instance
-          region_name: "us-west-1" # Launch in the US West 1 region
+          instance_type_name: ${{ steps.select-instance.outputs.instance_type_name }}
+          region_name: ${{ steps.select-instance.outputs.region_name }}
           ssh_key_names: "lambda_ssh_001"
           lambda_token: ${{ secrets.LAMBDA_TOKEN }} # Use secret token for authentication
           wait_for_boot: "true" # Wait for the instance to boot
